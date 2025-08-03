@@ -5,28 +5,53 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "J", "mzJ`z")
 
--- vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- vim.keymap.set("n", "<C-h>", "<C-u>zz")
 -- This is a hack to make the cursor stay in the middle of the screen in vscode-nvim
-delay = 20 -- Delay in ms between cursor movement and screen update
+delay = 10 -- Delay in ms between cursor movement and screen update
+
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-d>", function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-d>', true, true, true), 'n', true)
     vim.defer_fn(function()
         vim.cmd.normal("zz")
-        print("zz")
     end, delay)
 end)
+
+-- vim.keymap.set("n", "<C-h>", "<C-u>zz")
 vim.keymap.set("n", "<C-u>", function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-u>', true, true, true), 'n', true)
     vim.defer_fn(function()
         vim.cmd.normal("zz")
-        print("zz")
+    end, delay)
+end)
+
+-- vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "n", function()
+    vim.api.nvim_feedkeys("n", "n", true)
+    vim.defer_fn(function()
+        vim.cmd.normal("zz")
+    end, delay)
+end)
+
+-- vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("n", "N", function()
+    vim.api.nvim_feedkeys("N", "n", true)
+    vim.defer_fn(function()
+        vim.cmd.normal("zz")
     end, delay)
 end)
 -- greatest hack ever btw
 
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+-- This is a hack to make the cursor stay in the middle of the screen while searching
+-- idk if i like it
+-- vim.keymap.set('c', '<CR>', function()
+--     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, true, true), 'n', true)
+--     if vim.fn.getcmdtype() == "/" then
+--         vim.defer_fn(function()
+--             vim.cmd.normal("zz")
+--         end, 20)
+--     end
+-- end)
+
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
