@@ -5,6 +5,18 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "J", "mzJ`z")
 
+-- BETTER HIGHLIGHT SEARCH
+vim.keymap.set("x", "/", function()
+    vim.api.nvim_feedkeys("y", "x", true)
+    vim.api.nvim_feedkeys("/", "n", true)
+    vim.api.nvim_feedkeys("\\V", "n", true)
+
+    local escaped_search = vim.fn.escape(vim.fn.getreg('"'), '/\\.*$^~[]')
+    vim.fn.setreg('"', escaped_search)
+
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-r>"', true, true, true), "n", true)
+end, { noremap = true, silent = true, desc = "Auto insert search text" })
+
 -- This is a hack to make the cursor stay in the middle of the screen in vscode-nvim
 delay = 10 -- Delay in ms between cursor movement and screen update
 
