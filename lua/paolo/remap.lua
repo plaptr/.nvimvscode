@@ -79,3 +79,16 @@ end)
 vim.keymap.set("i", "<C-d>", "<nop>")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>]])
+
+
+
+-- ?PLUGIN SECTION
+local is_vscode = vim.g.vscode ~= nil and vim.g.vscode
+
+--* vscode-multi-cursor
+
+vim.keymap.set({ "n", "x", "i" }, "<C-S-d>", function()
+    if(is_vscode) then
+        require("vscode-multi-cursor").addSelectionToNextFindMatch()
+    end
+end)
