@@ -80,7 +80,7 @@ vim.keymap.set("i", "<C-d>", "<nop>")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>]])
 
-vim.keymap.set("i", "<C-c>", "<ESC>", { silent = true })
+vim.keymap.set("i", "jj", "<ESC>", { silent = true })
 
 -- ?PLUGIN SECTION
 local is_vscode = vim.g.vscode ~= nil and vim.g.vscode
