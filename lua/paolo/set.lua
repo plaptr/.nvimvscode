@@ -1,3 +1,4 @@
+
 vim.opt.guicursor = ""
 vim.opt.cursorline = true
 
@@ -30,7 +31,6 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
-vim.opt.timeoutlen = 200
 
 
 vim.opt.ignorecase = true
