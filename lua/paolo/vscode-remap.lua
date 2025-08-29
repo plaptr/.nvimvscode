@@ -52,5 +52,6 @@ vim.keymap.set({ "n", "x", "i" }, "<C-S-d>", function()
 end)
 
 vim.keymap.set({"n", "x"}, "r", "<NOP>")
-vim.keymap.set({"n", "x"}, "gr", "<NOP>")
-vim.keymap.set({"n", "x"}, "gh", "<NOP>")
+vim.keymap.set({"n", "x"}, "gr", function()
+    vscode.action("editor.action.referenceSearch.trigger")
+end)
