@@ -48,7 +48,9 @@ vim.keymap.set("n", "<leader><leader>", function()
 end)
 
 vim.keymap.set({ "n", "x", "i" }, "<C-S-d>", function()
-    if(is_vscode) then
-        require("vscode-multi-cursor").addSelectionToNextFindMatch()
-    end
+    require("vscode-multi-cursor").addSelectionToNextFindMatch()
 end)
+
+vim.keymap.set({"n", "x"}, "r", "<NOP>")
+vim.keymap.set({"n", "x"}, "gr", "<NOP>")
+vim.keymap.set({"n", "x"}, "gh", "<NOP>")
