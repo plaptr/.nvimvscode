@@ -55,3 +55,7 @@ vim.keymap.set({"n", "x"}, "r", "<NOP>")
 vim.keymap.set({"n", "x"}, "gr", function()
     vscode.action("editor.action.referenceSearch.trigger")
 end)
+
+
+
+
