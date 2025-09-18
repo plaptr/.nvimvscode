@@ -4,7 +4,7 @@ return {
   cond = not not vim.g.vscode,
   config = function()
     require('vscode-multi-cursor').setup({
-         -- Whether to set default mappings
+      -- Whether to set default mappings
       default_mappings = true,
       -- If set to true, only multiple cursors will be created without multiple selections
       no_selection = false
