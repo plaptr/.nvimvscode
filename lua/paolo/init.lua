@@ -1,8 +1,3 @@
 require("paolo.set")
-if vim.g.vscode ~= nil and vim.g.vscode then
-    require("paolo.vscode-remap")
-else
-    require("paolo.remap")
-end
-
+require("paolo.remap")
 require("paolo.lazy")
