@@ -1,53 +1,10 @@
-local opts = { noremap = true, silent = true }
+if not vim.g.vscode then
+    return
+end
 
+local vscode = require("vscode")
+local map = vim.keymap.set
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-vim.keymap.set("n", "-", ":Ex<CR>")
-
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "moves lines down in visual selection" })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "moves lines up in visual selection" })
-
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "move down in buffer with cursor centered" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "move up in buffer with cursor centered" })
-
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
-
-vim.keymap.set("x", "<leader>p", [["_dP]])
-
-vim.keymap.set("v", "<", "<gv", opts)
-vim.keymap.set("v", ">", ">gv", opts)
-
--- Paste without replacing clipboard content
-vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set("v", "p", '"_dp', opts)
-
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-
-vim.keymap.set("i", "<C-c>", "<Esc>")
-vim.keymap.set("n", "<C-c>", ":nohl<CR>", { desc = "Clear search hl", silent = true }) -- clears search highlights
-
-vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "x", '"_x', opts) -- prevents deleted characters from copying to clipboard
-
-
-
-
-
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
-
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-
--- vim.keymap.set("n", "<leader><leader>", function()
---     vim.cmd("so")
--- end)
---
-
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = "Replace word cursor is on globally" })
-
 
 -- Highlight yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -58,18 +15,115 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end
 })
 
-vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
-vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
-vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
-
-vim.keymap.set("n", "<C-S-l>", ":rightbelow vsplit<CR>", { desc = "Split panel right" })
-vim.keymap.set("n", "<C-S-h>", ":leftabove vsplit<CR>", { desc = "Split panel left" })
-vim.keymap.set("n", "<C-S-j>", ":belowright split<CR>", { desc = "Split panel down" })
-vim.keymap.set("n", "<C-S-k>", ":aboveleft split<CR>", { desc = "Split panel up" })
+map({ "n", "v" }, "s", "<nop>")
 
 
-vim.keymap.set("n", "<leader><leader>l", "<C-w>L", { desc = "Swap panel right" })
-vim.keymap.set("n", "<leader><leader>h", "<C-w>H", { desc = "Swap panel left" })
-vim.keymap.set("n", "<leader><leader>j", "<C-w>J", { desc = "Swap panel down" })
-vim.keymap.set("n", "<leader><leader>k", "<C-w>K", { desc = "Swap panel up" })
+-- This is a hack to make the cursor stay in the middle of the screen in vscode-nvim
+local delay = 10 -- Delay in ms between cursor movement and screen update
+
+map("n", "<C-d>", function()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-d>', true, true, true), 'n', true)
+    vim.defer_fn(function()
+        vim.cmd.normal("zz")
+    end, delay)
+end)
+
+map("n", "<C-u>", function()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-u>', true, true, true), 'n', true)
+    vim.defer_fn(function()
+        vim.cmd.normal("zz")
+    end, delay)
+end)
+
+-- map("n", "n", "nzz")
+map("n", "n", function()
+    vim.api.nvim_feedkeys("n", "n", true)
+    vim.defer_fn(function()
+        vim.cmd.normal("zz")
+    end, delay)
+end)
+
+-- map("n", "N", "Nzz")
+map("n", "N", function()
+    vim.api.nvim_feedkeys("N", "n", true)
+    vim.defer_fn(function()
+        vim.cmd.normal("zz")
+    end, delay)
+end)
+-- greatest hack ever btw
+
+
+map("n", "J", "mzJ`z")
+map("x", "<leader>p", [["_dP]])
+
+map({ "n", "v" }, "<leader>y", [["+y]])
+map("n", "<leader>Y", [["+Y]])
+
+map({ "n", "v" }, "<leader>d", [["_d]])
+map("n", "<leader><leader>", function()
+    vim.cmd("so")
+end)
+
+map({ "n", "x", "i" }, '<C-S-d>', 'mciw*<Cmd>nohl<CR>', { remap = true })
+
+
+map({ "n", "x" }, "r", "<NOP>")
+map({ "n", "x" }, "gr", function()
+    vscode.action("editor.action.referenceSearch.trigger")
+end)
+
+vim.api.nvim_create_autocmd({ "VimEnter", "ModeChanged" }, {
+    callback = function(args)
+        vscode.call("setContext", {
+            args = { "neovim.fullMode", vim.fn.mode(1) },
+        })
+    end,
+})
+
+
+local function create_motion_pending_automation(trigger)
+    map("n", trigger, function()
+        vscode.call("setContext", {
+            args = { "neovim.motionPending", true },
+        })
+        vim.api.nvim_feedkeys(trigger, "n", true)
+    end)
+end
+
+create_motion_pending_automation("f")
+create_motion_pending_automation("F")
+create_motion_pending_automation("t")
+create_motion_pending_automation("T")
+
+vim.api.nvim_create_autocmd({ "CursorMoved" }, {
+    callback = function()
+        vscode.call("setContext", {
+            args = { "neovim.motionPending", false },
+        })
+    end,
+})
+
+
+map("n", "gr", function()
+    vscode.action("editor.action.referenceSearch.trigger")
+end)
+
+map("v", "v", function()
+    vscode.action("editor.action.smartSelect.expand")
+end)
+
+map("n", "]d", function()
+    vscode.action("editor.action.marker.next")
+end)
+
+map("n", "[d", function()
+    vscode.action("editor.action.marker.prev")
+end)
+
+map("n", "]D", function()
+    vscode.action("editor.action.marker.nextInFiles")
+end)
+
+map("n", "[D", function()
+    vscode.action("editor.action.marker.prevInFiles")
+end)
