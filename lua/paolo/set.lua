@@ -1,5 +1,6 @@
 vim.cmd("let g:netrw_banner = 0")
-vim.opt.guicursor = "n-v-c:block,i:ver25"
+-- vim.opt.guicursor = "n-v-c:block,i:ver25"
+vim.opt.guicursor = ""
 vim.opt.cursorline = true
 vim.opt.nu = true
 vim.opt.relativenumber = true

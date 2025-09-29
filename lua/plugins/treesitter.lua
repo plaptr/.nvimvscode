@@ -18,7 +18,8 @@ return {
                             ["if"] = "@function.inner",
                             ["ac"] = "@class.outer",
                             ["ic"] = "@class.inner",
-                            -- ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+                            ["is"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+                            ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
                         },
                     },
                     move = {
@@ -28,6 +29,7 @@ return {
                             ["]f"] = "@function.outer",
                             ["]c"] = { query = "@class.outer", desc = "Next class start" },
                             --
+                            ["]a"] = "@attribute.outer",
                             -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queries.
                             ["]o"] = "@loop.*",
                             -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
@@ -47,6 +49,7 @@ return {
                             ["[f"] = "@function.outer",
                             ["[c"] = "@class.outer",
                             ["[["] = "@parameter.inner",
+                            ["[a"] = "@attribute.outer",
                         },
                         goto_previous_end = {
                             ["[F"] = "@function.outer",
@@ -105,7 +108,7 @@ return {
 
                 ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
                 -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-                indent = { enable = true },
+                indent = { enable = false },
 
                 highlight = {
                     enable = false,
