@@ -16,7 +16,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 map({ "n", "v" }, "s", "<nop>")
-
+map({ "n", "i" }, "<C-h>", "<nop>")
+map({ "n", "i" }, "<C-l>", "<nop>")
 
 -- This is a hack to make the cursor stay in the middle of the screen in vscode-nvim
 local delay = 10 -- Delay in ms between cursor movement and screen update
