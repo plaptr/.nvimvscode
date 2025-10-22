@@ -65,8 +65,13 @@ map("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
-map({ "n", "x", "i" }, '<C-S-d>', 'mciw*<Cmd>nohl<CR>', { remap = true })
-
+-- Multi cursor thingy
+-- map({ "n", "x", "i" }, '<C-S-d>', 'mciw*<Cmd>nohl<CR>', { remap = true })
+vim.keymap.set({ "n", "x", "i" }, "<C-S-d>", function()
+    vscode.with_insert(function()
+        vscode.action("editor.action.addSelectionToNextFindMatch")
+    end)
+end)
 
 map({ "n", "x" }, "r", "<NOP>")
 map({ "n", "x" }, "gr", function()
