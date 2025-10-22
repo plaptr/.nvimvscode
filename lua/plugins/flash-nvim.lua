@@ -1,7 +1,22 @@
 return {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+        modes = {
+            char = {
+                char_actions = function() return { [";"] = "next", [","] = "prev" } end,
+                search = { wrap = true },
+                highlight = {
+                    backdrop = false,
+                    groups = {
+                        match = "FlashCharMatch",
+                        label = "FlashCharLabel"
+                    }
+                }
+            }
+        }
+
+    },
     keys = {
         { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
         -- { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
