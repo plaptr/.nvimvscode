@@ -35,23 +35,25 @@ map("n", "<C-u>", function()
         vim.cmd.normal("zz")
     end, delay)
 end)
+-- greatest hack ever btw
+
+
 
 -- map("n", "n", "nzz")
-map("n", "n", function()
-    vim.api.nvim_feedkeys("n", "n", true)
-    vim.defer_fn(function()
-        vim.cmd.normal("zz")
-    end, delay)
-end)
+-- map("n", "n", function()
+--     vim.api.nvim_feedkeys("n", "n", true)
+--     vim.defer_fn(function()
+--         vim.cmd.normal("zz")
+--     end, delay)
+-- end)
 
 -- map("n", "N", "Nzz")
-map("n", "N", function()
-    vim.api.nvim_feedkeys("N", "n", true)
-    vim.defer_fn(function()
-        vim.cmd.normal("zz")
-    end, delay)
-end)
--- greatest hack ever btw
+-- map("n", "N", function()
+--     vim.api.nvim_feedkeys("N", "n", true)
+--     vim.defer_fn(function()
+--         vim.cmd.normal("zz")
+--     end, delay)
+-- end)
 
 
 map("n", "J", "mzJ`z")
@@ -67,6 +69,7 @@ end)
 
 -- Multi cursor thingy
 -- map({ "n", "x", "i" }, '<C-S-d>', 'mciw*<Cmd>nohl<CR>', { remap = true })
+
 vim.keymap.set({ "n", "x", "i" }, "<C-S-d>", function()
     vscode.with_insert(function()
         vscode.action("editor.action.addSelectionToNextFindMatch")
